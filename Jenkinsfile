@@ -1,28 +1,30 @@
 pipeline {
-environment {
-  registry = "bukkanikhilsai/calculator-mini"
-  registryCredential = 'dockerhub'
-  dockerImage = ''
+	environment {
+    registry = "bukkanikhilsai/calculator-mini"
+    registryCredential = 'dockerhub'
+    dockerImage = ''
   }
   agent any
-  stages
-    {
-    stage('Clean') {
+  stages {
+    stage('Clean Target Files') {
       steps {
         sh 'mvn clean'
       }
     }
-    stage('Compile') {
+
+    stage('Building Class Files') {
       steps {
         sh 'mvn compile'
       }
     }
-    stage('Test') {
+
+    stage('Testing Stage') {
       steps {
         sh 'mvn test'
       }
     }
-    stage('DockerHub') {
+
+		stage('DockerHub Build Image') {
       stages{
         stage('Build Image') {
           steps{
@@ -31,7 +33,7 @@ environment {
             }
           }
         }
-        stage('Push Image') {
+        stage('DockerHub Push Image') {
           steps{
             script {
               docker.withRegistry( '', registryCredential ) {
@@ -39,6 +41,19 @@ environment {
               }
             }
           }
+        }
+      }
+    }
+		stage('Rundeck Deploy') {
+      agent any
+      steps {
+        script {
+          step([$class: "RundeckNotifier",
+          rundeckInstance: "Rundeck",
+          options: """
+            BUILD_VERSION=$BUILD_NUMBER
+          """,
+          jobId: "06105e49-e69b-4993-bb02-695840cea2ee"])
         }
       }
     }
