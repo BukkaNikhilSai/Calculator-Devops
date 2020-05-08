@@ -3,9 +3,9 @@ package com.calculator;
 import org.junit.*;
 
 public class CalculatorTests {
-    
+
     private Calculator calculator;
-    
+
     @Before
     public void setUp() {
         calculator = new Calculator();
@@ -19,7 +19,7 @@ public class CalculatorTests {
         long result = calculator.add(a, b);
         Assert.assertEquals(expectedResult, result);;
     }
-    
+
     @Test
     public void testSubtract() {
         int a = 25;
@@ -28,7 +28,7 @@ public class CalculatorTests {
         long result = calculator.subtract(a, b);
         Assert.assertEquals(expectedResult, result);;
     }
-    
+
     @Test
     public void testMultiply() {
         int a = 10;
@@ -37,7 +37,7 @@ public class CalculatorTests {
         long result = calculator.multiply(a, b);
         Assert.assertEquals(expectedResult, result);;
     }
-    
+
     @Test
     public void testDivide() {
         int a = 56;
@@ -46,7 +46,7 @@ public class CalculatorTests {
         double result = calculator.divide(a, b);
         Assert.assertEquals(expectedResult, result,0.00005);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void testDivideByZero() {
         int a = 15;
