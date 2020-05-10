@@ -9,5 +9,7 @@ RUN mvn install
 FROM openjdk:11-jre
 
 COPY --from=builder /build/target/devops_calculator-1.0-SNAPSHOT.jar .
-CMD java -cp devops_calculator-1.0-SNAPSHOT.jar:/build/target/classes/ com.calculator.Calculator
+#CMD java -cp devops_calculator-1.0-SNAPSHOT.jar:/build/target/classes/ com.calculator.Calculator
+CMD cd target/classes
+CMD java java com.calculator.Calculator
 #CMD java -version
